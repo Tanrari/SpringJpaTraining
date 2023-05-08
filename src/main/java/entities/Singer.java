@@ -11,16 +11,21 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "singer")
+@Table(name = "singer", schema = "public")
 @NamedQueries({@NamedQuery(name = Singer.FIND_ALL, query = "select s from Singer s"),
 @NamedQuery(name = Singer.FIND_ALL_WITH_ALBUM, query = "select distinct s from Singer s left join fetch s.albums a " +
-		"left join fetch s.instruments k")})
+		"left join fetch s.instruments k"), @NamedQuery(name=Singer.FIND_SINGER_BY_ID,
+		query="select distinct s from Singer s " +
+				"left join fetch s.albums a " +
+				"left join fetch s.instruments i " +
+				"where s.id = :id")})
 @SqlResultSetMapping(name = "singerResult", entities = @EntityResult(entityClass = Singer.class))
 public class Singer extends AbstractEntity implements Serializable {
 
 //	public static final String FIND_SINGER_BY_ID = "Singer.findById";
 	public static final String FIND_ALL_WITH_ALBUM = "Singer.findAllWithAlbum";
 	public static final String FIND_ALL = "Singer.findAll";
+	public static final String FIND_SINGER_BY_ID ="Singer.findById";
 
 	@Column(name = "FIRST_NAME")
 	private String firstName;

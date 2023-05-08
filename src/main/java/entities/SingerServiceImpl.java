@@ -12,12 +12,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import java.util.List;
 @Service("jpaSingerService")
 @Repository
 @Transactional
 public class SingerServiceImpl implements SingerService {
-    final static String ALL_SINGER_NATIVE_QUERY =  "SELECT * FROM singer";
+
     @PersistenceContext
     public  EntityManager em;
     private static Logger logger = LoggerFactory.getLogger(SingerServiceImpl.class);
@@ -32,6 +33,13 @@ public class SingerServiceImpl implements SingerService {
 
     @Override
     public List<Singer> findAllWithAlbum() {
-        return em.createNamedQuery(Singer.FIND_ALL, Singer.class).getResultList();
+
+        return em.createNamedQuery(Singer.FIND_ALL_WITH_ALBUM, Singer.class).getResultList();
+    }
+    @Override
+    public Singer findById(Long id){
+        TypedQuery<Singer> query = em.createNamedQuery(Singer.FIND_SINGER_BY_ID,Singer.class);
+        query.setParameter("id",id);
+        return query.getSingleResult();
     }
 }

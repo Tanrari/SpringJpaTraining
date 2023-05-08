@@ -15,19 +15,34 @@ public class Tester {
     private static Logger logger= LoggerFactory.getLogger(Tester.class);
     private SingerService singerService;
     private GenericApplicationContext ctx;
+    private SingerSummaryUntypeImpl singerSummaryUntype;
 
     @Before
     public void setUp(){
         ctx = new AnnotationConfigApplicationContext(JpaConfig.class);
         singerService = ctx.getBean(SingerService.class);
+        singerSummaryUntype = ctx.getBean(SingerSummaryUntypeImpl.class);
+
 
     }
     @Test
     public void test() throws SQLException {
-        AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(JpaConfig.class);
-        SingerService src = (SingerService) ctx.getBean(SingerService.class);
+//        AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(JpaConfig.class);
+        SingerService src =  ctx.getBean(SingerService.class);
         System.out.println(src.findAll());
 //        System.out.println(src.getConnection("tanrari","root").getSchema());
+    }
+    @Test
+    public void findAllUnType(){
+        singerSummaryUntype.displaySingerSummary();
+    }
+
+    @Test
+    public void findById(){
+//        ctx = new AnnotationConfigApplicationContext();
+//        ctx.refresh();
+//        SingerService src = ctx.getBean(SingerService.class);
+        System.out.println(singerService.findById(1L));
     }
 
     @Test
@@ -39,6 +54,7 @@ public class Tester {
     public static void listSingersWithAlbumsAndInstruments(List<Singer> singerList) {
         logger.info("--- Listing singers with instruments:");
         for (Singer singer : singerList) {
+            logger.info("\t"+ singer.toString());
             if (singer.getAlbums() != null) {
                 for (Album album : singer.getAlbums()) {
                     logger.info("\t" + album.toString());

@@ -6,7 +6,7 @@ import java.util.Date;
 
 
 @Entity
-@Table(name = "album")
+@Table(name = "album", schema = "public")
 public class Album extends AbstractEntity implements Serializable {
 
 	@Column

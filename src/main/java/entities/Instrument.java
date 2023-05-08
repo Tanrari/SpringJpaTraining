@@ -5,9 +5,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "instrument")
-public class Instrument extends AbstractEntity implements Serializable {
-
+@Table(name = "instrument" , schema = "public")
+public class Instrument  implements Serializable {
+	@Id
+	@Column(name = "INSTRUMENT_ID")
 	private String instrumentId;
 
 	@ManyToMany(fetch = FetchType.EAGER)
